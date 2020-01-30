@@ -10,6 +10,9 @@ def test_get_users_invalid_input_returns_400():
     response = client.get("/users?latitude=nut")
     assert response.status_code == 400
 
+    response = client.get("/users?range=nut")
+    assert response.status_code == 400
+
     response = client.get("/users?latitude=100")
     assert response.status_code == 400
 
