@@ -1,7 +1,26 @@
-# -------- Your unit tests ----------
+from api import flask
 
-# def test_your_test_name():
-#     client = flask.test_client()
-#     response = client.get("/endpoint")
-#     parsed_response = response.json
-#     make assertions here...
+
+def test_get_users_invalid_input_returns_400():
+    client = flask.test_client()
+
+    response = client.get("/users?longitude=nut")
+    assert response.status_code == 400
+
+    response = client.get("/users?latitude=nut")
+    assert response.status_code == 400
+
+    response = client.get("/users?latitude=100")
+    assert response.status_code == 400
+
+    response = client.get("/users?longitude=200")
+    assert response.status_code == 400
+
+    response = client.get("/users?operator=nut")
+    assert response.status_code == 400
+
+    response = client.get("/users")
+    assert response.status_code == 400
+
+    response = client.get("/users?latitude=80")
+    assert response.status_code == 400

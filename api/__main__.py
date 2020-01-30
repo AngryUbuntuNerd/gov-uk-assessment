@@ -6,4 +6,4 @@ from api import flask
 
 
 # -------- Entrypoint via console ----------
-flask.run(host='0.0.0.0', threaded=True)
+flask.run(host='0.0.0.0', threaded=True, debug=True)
