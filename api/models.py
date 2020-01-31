@@ -52,7 +52,7 @@ class User:
         if not user_coordinate.is_valid():
             return False
 
-        distance_miles = distance.vincenty(coordinate.to_tuple(), user_coordinate.to_tuple()).miles
+        distance_miles = distance.geodesic(coordinate.to_tuple(), user_coordinate.to_tuple()).miles
         return distance_miles <= range
 
     def __hash__(self):
