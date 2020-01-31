@@ -33,7 +33,7 @@ def get_users():
     longitude: Optional[str] = request.args.get('longitude')
     range_input: str = request.args.get('range', default=RANGE_DEFAULT)
     city: Optional[str] = request.args.get('city')
-    operator: str = request.args.get('operator', default=OPERATOR_OR)
+    operator: str = request.args.get('operator', default=OPERATOR_AND)
 
     # convert and validate input
     try:
@@ -65,6 +65,7 @@ def get_users():
     else:
         users = city_users.union(ranged_users)
 
+    # return as JSON
     users_as_dicts = [user.__dict__ for user in users]
     return jsonify(users_as_dicts)
 
