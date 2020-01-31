@@ -11,7 +11,6 @@ class UserRepository:
     def __init__(self):
         self.url = os.environ.get('API_URL')
         assert self.url, 'API_URL needs to be set'
-    # url = 'https://bpdts-test-app.herokuapp.com'
 
     def fetch_users(self) -> Generator[User, None, None]:
         response = requests.get(f'{self.url}/users')
