@@ -39,6 +39,30 @@ docker build -t gov-uk-assessment .
 docker run -p 5000:80 -e API_URL="https://bpdts-test-app.herokuapp.com" gov-uk-assessment
 ```
 
+## Example requests
+
+The API will be available at http://localhost:5000
+
+Return people who are listed as living in London:
+```
+http://localhost:5000/?city=London
+```
+
+Return people who are currently within 50 miles of London:
+```
+http://localhost:5000/?latitude=51.5054&longitude=-0.1267&range=50
+```
+
+Return people who are listed in London AND whose current coordinates are within 15000 miles of London:
+```
+http://localhost:5000/?city=London&latitude=51.5054&longitude=-0.1267&range=15000
+```
+
+Return people who are listed as either living in London, OR whose current coordinates are within 50 miles of London:
+```
+http://localhost:5000/?city=London&latitude=51.5054&longitude=-0.1267&range=50&operator=OR
+```
+
 ## Running tests
 
 To launch the integration tests, use PyTest:
