@@ -31,7 +31,7 @@ python -m api
 ```
 
 ### With Docker
-To run the server and all its dependencies in a Docker container, 
+To run the server and all its dependencies in a Docker container with UWSGI, 
 make sure to have Docker installed, then build and run:
 
 ```bash
