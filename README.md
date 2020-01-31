@@ -1,4 +1,4 @@
-# API Template
+# Gov.uk assessment
 
 This is a proxy API to access the BPDTS test API, provided by gov.uk.
 
@@ -39,7 +39,7 @@ docker build -t gov-uk-assessment .
 docker run -p 5000:80 -e API_URL="https://bpdts-test-app.herokuapp.com" gov-uk-assessment
 ```
 
-## Example requests
+### Example requests
 
 The API will be available at http://localhost:5000
 
