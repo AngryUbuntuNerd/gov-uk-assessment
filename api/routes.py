@@ -8,6 +8,7 @@ from flask.json import jsonify
 from werkzeug.exceptions import HTTPException, BadRequest
 
 from api import flask
+from api.models import Coordinate
 from api.repositories import UserRepository
 
 
@@ -16,7 +17,7 @@ from api.repositories import UserRepository
 OPERATOR_OR = 'OR'
 OPERATOR_AND = 'AND'
 OPERATORS = [OPERATOR_AND, OPERATOR_OR]
-RANGE_DEFAULT = 10.0
+RANGE_DEFAULT = '10.0'
 
 
 # -------- API routes ----------
@@ -27,41 +28,38 @@ def get_users():
     user_repository = UserRepository()
 
     # read request input
-    latitude_input: Optional[str] = request.args.get('latitude')
-    longitude_input: Optional[str] = request.args.get('longitude')
+    latitude: Optional[str] = request.args.get('latitude')
+    longitude: Optional[str] = request.args.get('longitude')
     range_input: str = request.args.get('range', default=RANGE_DEFAULT)
     city: Optional[str] = request.args.get('city')
     operator: str = request.args.get('operator', default=OPERATOR_OR)
 
     # convert and validate input
     try:
-        latitude = float(latitude_input) if latitude_input else None
-        longitude = float(longitude_input) if longitude_input else None
+        coordinate = Coordinate(latitude, longitude)
         range = float(range_input)
     except ValueError:
         raise BadRequest('"latitude", "longitude" and "range" need to be floats')
-    if latitude and (latitude > 90 or latitude < -90):
-        raise BadRequest('"latitude" needs to be a float between -90 and 90')
-    if longitude and (longitude > 180 or longitude < -180):
-        raise BadRequest('"longitude" needs to be a float between 180 and 180')
+    if coordinate and not coordinate.is_valid():
+        raise BadRequest('"latitude" and "longitude" need to form a valid coordinate')
     if range < 0:
         raise BadRequest('"range" needs to a positive number')
     if operator not in OPERATORS:
         raise BadRequest(f'"operator" needs to be one of: {OPERATORS}')
-    if not (latitude and longitude) or city:
+    if not city and not coordinate:
         raise BadRequest('Need to supply either "city", or "latitude" and "longitude"')
 
     # fetch users
     city_users = set()
     ranged_users = set()
     if city:
-        city_users.update(user_repository.fetch_city_users(city))
-    if latitude and longitude:
+        city_users = set(user_repository.fetch_city_users(city))
+    if coordinate:
         all_users = user_repository.fetch_users()
-        ranged_users.update(filter(lambda user: user.is_in_range(latitude, longitude, range_input), all_users))
+        ranged_users = set(filter(lambda user: user.is_in_range(coordinate, range), all_users))
 
     # combine users logically
-    if city and latitude and longitude and operator == OPERATOR_AND:
+    if city and coordinate and operator == OPERATOR_AND:
         users = city_users.intersection(ranged_users)
     else:
         users = city_users.union(ranged_users)
