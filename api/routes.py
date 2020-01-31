@@ -22,6 +22,7 @@ RANGE_DEFAULT = '10.0'
 
 # -------- API routes ----------
 
+@flask.route("/")
 @flask.route("/users")
 def get_users():
 
