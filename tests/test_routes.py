@@ -4,7 +4,7 @@ from api import flask
 from api.models import User
 
 
-def test_get_users_invalid_input_returns_400():
+def test_get_users_returns_400_on_invalid_input():
     client = flask.test_client()
 
     response = client.get("/users?longitude=nut")
