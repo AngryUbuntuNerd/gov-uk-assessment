@@ -72,3 +72,9 @@ def test_user_equals_other_user_with_same_id():
     user1 = User(id=1)
     user2 = User(id=1)
     assert user1 == user2
+
+
+def test_user_equals_not_other_user_with_different_id():
+    user1 = User(id=1)
+    user2 = User(id=2)
+    assert user1 != user2

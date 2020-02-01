@@ -1,7 +1,11 @@
+import os
 from unittest.mock import patch, MagicMock
 
 from api import flask
 from api.models import User
+
+
+os.environ['API_URL'] = 'http://something'
 
 
 def test_get_users_returns_400_on_invalid_input():
