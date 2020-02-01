@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 import traceback
 from typing import Optional
@@ -26,7 +27,10 @@ RANGE_DEFAULT = '10.0'
 @flask.route("/users")
 def get_users():
 
-    user_repository = UserRepository()
+    # prepare external API
+    user_repository_url = os.environ.get('API_URL')
+    assert user_repository_url, 'API_URL needs to be set'
+    user_repository = UserRepository(user_repository_url)
 
     # read request input
     latitude: Optional[str] = request.args.get('latitude')

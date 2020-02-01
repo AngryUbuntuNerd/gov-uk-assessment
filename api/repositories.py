@@ -8,9 +8,8 @@ from api.models import User
 
 class UserRepository:
 
-    def __init__(self):
-        self.url = os.environ.get('API_URL')
-        assert self.url, 'API_URL needs to be set'
+    def __init__(self, url: str):
+        self.url = url
 
     def fetch_users(self) -> Generator[User, None, None]:
         response = requests.get(f'{self.url}/users')
