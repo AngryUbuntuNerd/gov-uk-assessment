@@ -2,9 +2,11 @@
 
 This is a proxy API to access the BPDTS test API, provided by gov.uk.
 
-## First time setup
+## Running locally
 
-You need to have Python 3.x installed, and you should consider 
+### Without Docker
+
+You need to have at least Python 3.7 installed, and you should consider 
 setting up a virtual environment before progressing:
 
 ```bash
@@ -15,12 +17,8 @@ source venv/bin/activate
 Make sure that you have all the necessary libraries installed:
 
 ```bash
-pip install -r requirements.txt -r test-requirements.txt
+pip install -r requirements.txt
 ```
-
-## Running locally
-
-### Without Docker
 
 To run the application locally, set an environment variable to
 the external API and run as module:
@@ -64,6 +62,14 @@ http://localhost:5000/?city=London&latitude=51.5054&longitude=-0.1267&range=50&o
 ```
 
 ## Running tests
+
+You need to firstly follow all above steps for running locally without Docker.
+
+Then, install the additional test dependencies:
+
+```bash
+pip install -r test-requirements.txt
+```
 
 To launch the integration tests, use PyTest:
 
